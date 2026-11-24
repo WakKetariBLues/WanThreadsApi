@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>PitsStore - Threads Login</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#111;color:#eee;display:flex;min-height:100vh;align-items:center;justify-content:center;margin:0}
+.box{max-width:520px;padding:28px;background:#1d1d1d;border-radius:14px;text-align:center}
+code{display:block;word-break:break-all;background:#000;padding:12px;border-radius:8px;margin:14px 0;font-size:14px}
+button{padding:10px 22px;border:0;border-radius:8px;background:#fff;color:#000;font-weight:700;cursor:pointer}
+.err{color:#ff7a7a}
+</style>
+</head>
+<body>
+<div class="box">
+<h2>PitsStore × Threads</h2>
+<div id="out"></div>
+</div>
+<script>
+const p = new URLSearchParams(location.search);
+const out = document.getElementById('out');
+const code = p.get('code');
+if (code) {
+  const c = code.replace(/#_$/, '');
+  out.innerHTML = '<p>Login berjaya. Salin kod ini dan tampal ke alat Threads:</p><code id="c"></code><button id="b">Salin kod</button><p style="font-size:12px;opacity:.6">Kod sah beberapa minit sahaja. Jangan kongsi dengan orang lain.</p>';
+  document.getElementById('c').textContent = c;
+  document.getElementById('b').onclick = () => navigator.clipboard.writeText(c).then(() => document.getElementById('b').textContent = 'Disalin ✓');
+} else if (p.get('error')) {
+  out.innerHTML = '<p class="err"></p>';
+  out.firstChild.textContent = 'Login gagal: ' + (p.get('error_description') || p.get('error'));
+} else {
+  out.innerHTML = '<p>Halaman ini menerima kod login Threads untuk PitsStore.</p>';
+}
+</script>
+</body>
+</html>
